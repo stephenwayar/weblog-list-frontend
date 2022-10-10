@@ -5,15 +5,13 @@ import auth from './services/auth'
 import SuccessNotification from './components/sucessNotification'
 import ErrorNotification from './components/errorNotification'
 import Toggable from './components/toggable'
+import AddBlogFrom from './components/addBlogForm'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [title, setTitle] = useState('')
-  const [authur, setAuthur] = useState('')
-  const [url, setUrl] = useState('')
   const [success, setSuccess] = useState(null)
   const [error, setError] = useState(null)
 
@@ -53,35 +51,6 @@ const App = () => {
     }
   }
 
-  const addBlog = async e => {
-    e.preventDefault()
-    
-    try{
-      const blog = { title, authur, url }
-      const newBlog = await blogService.create(blog)
-      setBlogs(blogs.concat(newBlog))
-      setAuthur('')
-      setTitle('')
-      setUrl('')
-      blogRef.current.toggleVisibility()
-
-      setSuccess('Sucessfully added note')
-      setTimeout(() => {
-        setSuccess(null)
-      }, 3000)
-    }catch(exception){
-      setAuthur('')
-      setTitle('')
-      setUrl('')
-
-      setError('There was an error adding note')
-      setTimeout(() => {
-        setError(null)
-      }, 3000)
-    }
-
-  }
-
   const handleLogout = () => window.localStorage.removeItem('blogUser')
 
    if(user === null){
@@ -114,24 +83,7 @@ const App = () => {
       <h2>Create new blog</h2>
 
       <Toggable ref={blogRef} btnText="New note">
-        <form onSubmit={addBlog}>
-          <div>
-            <label>title</label>
-            <input value={title} type='text' onChange={({ target }) => setTitle(target.value)} />
-          </div>
-
-          <div>
-            <label>authur</label>
-            <input value={authur} type='text' onChange={({ target }) => setAuthur(target.value)} />
-          </div>
-
-          <div>
-            <label>url</label>
-            <input value={url} type='text' onChange={({ target }) => setUrl(target.value)} />
-          </div>
-
-          <button>add blog</button>
-        </form>
+        <AddBlogFrom setBlogs={setBlogs} setSuccess={setSuccess} blogRef={blogRef} setError={setError} blogs={blogs}/>
       </Toggable>
 
       <h2>blogs</h2>
