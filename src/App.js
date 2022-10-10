@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import auth from './services/auth'
 import SuccessNotification from './components/sucessNotification'
 import ErrorNotification from './components/errorNotification'
+import Toggable from './components/toggable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -15,6 +16,8 @@ const App = () => {
   const [url, setUrl] = useState('')
   const [success, setSuccess] = useState(null)
   const [error, setError] = useState(null)
+
+  const blogRef = useRef()
 
   useEffect(() => {
     const sessionUser = window.localStorage.getItem('blogUser')
@@ -60,6 +63,7 @@ const App = () => {
       setAuthur('')
       setTitle('')
       setUrl('')
+      blogRef.current.toggleVisibility()
 
       setSuccess('Sucessfully added note')
       setTimeout(() => {
@@ -109,24 +113,26 @@ const App = () => {
 
       <h2>Create new blog</h2>
 
-      <form onSubmit={addBlog}>
-        <div>
-          <label>title</label>
-          <input value={title} type='text' onChange={({ target }) => setTitle(target.value)} />
-        </div>
+      <Toggable ref={blogRef} btnText="New note">
+        <form onSubmit={addBlog}>
+          <div>
+            <label>title</label>
+            <input value={title} type='text' onChange={({ target }) => setTitle(target.value)} />
+          </div>
 
-        <div>
-          <label>authur</label>
-          <input value={authur} type='text' onChange={({ target }) => setAuthur(target.value)} />
-        </div>
+          <div>
+            <label>authur</label>
+            <input value={authur} type='text' onChange={({ target }) => setAuthur(target.value)} />
+          </div>
 
-        <div>
-          <label>url</label>
-          <input value={url} type='text' onChange={({ target }) => setUrl(target.value)} />
-        </div>
+          <div>
+            <label>url</label>
+            <input value={url} type='text' onChange={({ target }) => setUrl(target.value)} />
+          </div>
 
-        <button>add blog</button>
-      </form>
+          <button>add blog</button>
+        </form>
+      </Toggable>
 
       <h2>blogs</h2>
 
