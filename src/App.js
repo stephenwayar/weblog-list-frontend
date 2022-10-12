@@ -53,25 +53,25 @@ const App = () => {
 
   const handleLogout = () => window.localStorage.removeItem('blogUser')
 
-   if(user === null){
+  if(user === null){
     return(
       <form onSubmit={handleLogin}>
-      <h1>Login to application</h1>
+        <h1>Login to application</h1>
 
-      <div>
-        <label>Username:</label>
-        <input type='text' value={username} onChange={({ target }) => setUsername(target.value)}/>
-      </div>
+        <div>
+          <label>Username:</label>
+          <input type='text' value={username} onChange={({ target }) => setUsername(target.value)}/>
+        </div>
 
-      <div>
-        <label>Password:</label>
-        <input type='password' value={password} onChange={({ target }) => setPassword(target.value)}/>
-      </div>
+        <div>
+          <label>Password:</label>
+          <input type='password' value={password} onChange={({ target }) => setPassword(target.value)}/>
+        </div>
 
-      <button>login</button>
-    </form>
+        <button>login</button>
+      </form>
     )
-   }
+  }
 
   return (
     <div>

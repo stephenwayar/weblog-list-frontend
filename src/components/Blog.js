@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import axios from "axios"
 import blogService from "../services/blogs"
 
-const Blog = ({blog}) => {
+const Blog = ({ blog }) => {
   const [show, setShow] = useState(false)
 
   const [noOfLikes, setNoOfLikes] = useState(blog.likes)
